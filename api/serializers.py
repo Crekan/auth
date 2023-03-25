@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import PasswordResetForm
 from rest_framework import serializers
 
 from users.models import CustomUser
@@ -55,3 +56,14 @@ class CustomUserLoginSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validated_email(self, value):
+        PasswordResetForm({
+            'email': value,
+        })
+
+        return value
